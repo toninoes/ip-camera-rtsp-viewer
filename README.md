@@ -16,7 +16,10 @@ Streaming en vivo de una camara IP con salida RTSP (Tapo, Reolink, Hikvision, Da
    - **Hikvision/Dahua**: interfaz web de la camara -> Configuracion -> Red -> Protocolos avanzados -> ONVIF/RTSP.
    - **UniFi Protect**: Panel de administracion -> Camara -> Configuracion -> Avanzado -> RTSP.
 
-2. Averigua la IP local de la camara (app del fabricante, o lista DHCP de tu router).
+2. Averigua la IP local de la camara (app del fabricante, o lista DHCP de tu router). Lo ideal es asignarle una IP estatica dentro de tu red local para que no cambie y evitar tener que actualizar la configuracion. En el caso analizado, una TP-Link Tapo C260, esta reserva se puede establecer desde la propia app de Tapo para Android:
+
+<img src="img/camera-ip.png" alt="Configuracion de IP estatica en la app Tapo" width="30%" style="display: block; margin: 0 auto;">
+
 
 3. Averigua el path RTSP correcto para tu marca/modelo. Cada fabricante usa un esquema distinto:
    - **Tapo**: `/stream1` (calidad alta, puede ir en HEVC) o `/stream2` (calidad baja, H.264)
@@ -45,7 +48,16 @@ Streaming en vivo de una camara IP con salida RTSP (Tapo, Reolink, Hikvision, Da
    docker compose up -d
    ```
 
-8. Abre [http://localhost:1984](http://localhost:1984) en el navegador. Deberias ver el stream `camara_principal` listado, con reproduccion en vivo.
+8. Abre [http://localhost:1984](http://localhost:1984) en el navegador. 
+
+<img src="img/main-go2rtc.png" alt="Menu go2rtc principal" width="80%" style="display: block; margin: 0 auto;">
+
+Deberias ver el stream `camara_principal` listado, pulsa en stream o accedes directamente a [http://localhost:1984/stream.html?src=camara_principal](http://localhost:1984/stream.html?src=camara_principal) y deberás acceder a la cámara.
+
+En el caso analizado, una TP-Link Tapo C260, el resultado es una reproduccion en vivo directamente en el navegador, con imagen a pantalla completa, sonido y la marca temporal de la propia camara:
+
+<img src="img/working.png" alt="Reproduccion en vivo de la camara IP" width="80%" style="display: block; margin: 0 auto;">
+
 
 ## Codec: H.264 vs HEVC/H.265
 
