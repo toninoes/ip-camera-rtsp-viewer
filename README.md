@@ -30,7 +30,7 @@ Streaming en vivo de una camara IP con salida RTSP (Tapo, Reolink, Hikvision, Da
 4. Clona el repo y crea tu `.env`:
 
    ```bash
-   git clone <url-de-este-repo>
+   git clone git@github.com:toninoes/ip-camera-rtsp-viewer.git
    cd ip-camera-rtsp-viewer
    cp .env.example .env
    ```
