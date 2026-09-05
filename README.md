@@ -33,7 +33,7 @@ La URL de la cámara se construye con las variables de `.env` y se inyecta media
    - **Hikvision/Dahua**: interfaz web de la cámara -> Configuración -> Red -> Protocolos avanzados -> ONVIF/RTSP.
    - **UniFi Protect**: panel de administración -> Cámara -> Configuración -> Avanzado -> RTSP.
 
-2. Averigua la IP local de la cámara (aplicación del fabricante o lista DHCP de tu router). Lo ideal es asignarle una IP estática dentro de tu red local para que no cambie y evitar tener que actualizar la configuración. En el caso analizado, una TP-Link Tapo C260, esta reserva se puede establecer desde la propia aplicación de Tapo para Android:
+2. Averigua la IP local de la cámara (aplicación del fabricante o lista DHCP de tu router). Lo ideal es asignarle una IP estática dentro de tu red local para que no cambie y evitar tener que actualizar la configuración. En el caso analizado, una [TP-Link Tapo C260](https://www.tapo.com/es/product/smart-camera/tapo-c260/), esta reserva se puede establecer desde la propia aplicación de Tapo para Android:
 
 <img src="img/camera-ip.png" alt="Configuración de IP estática en la aplicación Tapo" width="30%" style="display: block; margin: 0 auto;">
 
@@ -67,7 +67,7 @@ La URL de la cámara se construye con las variables de `.env` y se inyecta media
 
 8. Abre [http://localhost:8889/camara](http://localhost:8889/camara) en el navegador para ver el stream WebRTC.
 
-En el caso analizado, una TP-Link Tapo C260, el resultado es una reproducción en vivo directamente en el navegador, con imagen a pantalla completa, sonido y la marca temporal de la propia cámara:
+En el caso analizado, una [TP-Link Tapo C260](https://www.tapo.com/es/product/smart-camera/tapo-c260/), el resultado es una reproducción en vivo directamente en el navegador, con imagen a pantalla completa, sonido y la marca temporal de la propia cámara:
 
 <img src="img/working.png" alt="Reproducción en vivo de la cámara IP" width="80%" style="display: block; margin: 0 auto;">
 
@@ -290,7 +290,7 @@ Esta configuración solo sirve el stream en la red local del host donde corre Do
 
 ## Cámaras probadas
 
-- TP-Link Tapo C260 (funciona con `/stream2`; `/stream1` requiere transcodificación por HEVC)
+- [TP-Link Tapo C260](https://www.tapo.com/es/product/smart-camera/tapo-c260/) (funciona con `/stream2`; `/stream1` requiere transcodificación por HEVC)
 
 Si pruebas esta configuración con otra marca o modelo, será bienvenido un PR que añada el path RTSP correspondiente a esta sección.
 
