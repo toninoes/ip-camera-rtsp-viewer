@@ -55,7 +55,7 @@ La URL de la camara se construye con las variables de `.env` y se inyecta median
    cp .env.example .env
    ```
 
-5. Edita `.env` con tus valores reales (usuario, contrasena, IP, path). Este archivo nunca se sube al repositorio, esta en `.gitignore`.
+5. Edita `.env` con tus valores reales (usuario, contraseña, IP, path). Este archivo nunca se sube al repositorio, esta en `.gitignore`.
 
 6. Ajusta `CAMERA_RTSP_PATH` en `.env` si tu camara no es una Tapo (el valor por defecto usa `/stream2`, especifico de Tapo).
 
