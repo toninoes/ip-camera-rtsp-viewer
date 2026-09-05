@@ -1,0 +1,11 @@
+rtsp: false
+rtmp: false
+srt: false
+moq: false
+
+paths:
+  camara:
+    # La URL RTSP se inyecta desde docker-compose mediante
+    # MTX_PATHS_CAMARA_SOURCE y sobrescribe el valor publisher.
+    source: publisher
+    sourceOnDemand: true

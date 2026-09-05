@@ -1,10 +1,12 @@
 services:
-  go2rtc:
-    image: alexxit/go2rtc
-    container_name: go2rtc
+  mediamtx:
+    image: bluenviron/mediamtx:1.20.1
+    container_name: mediamtx
     network_mode: host
     env_file:
       - .env
+    environment:
+      MTX_PATHS_CAMARA_SOURCE: rtsp://${CAMERA_USER}:${CAMERA_PASSWORD}@${CAMERA_IP}:554${CAMERA_RTSP_PATH}
     volumes:
-      - ./go2rtc.yaml:/config/go2rtc.yaml
+      - ./mediamtx.yml:/mediamtx.yml:ro
     restart: unless-stopped
