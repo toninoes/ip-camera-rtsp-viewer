@@ -4,6 +4,21 @@ Streaming en vivo de una camara IP con salida RTSP (Tapo, Reolink, Hikvision, Da
 
 Este proyecto utiliza [MediaMTX](https://github.com/bluenviron/mediamtx), un proyecto independiente distribuido bajo licencia MIT. Este repositorio no incluye ni modifica su codigo fuente.
 
+## Flujo de señal
+
+La camara entrega el video a MediaMTX mediante RTSP. MediaMTX actua como proxy y adapta ese stream al protocolo que utiliza el cliente:
+
+```mermaid
+flowchart LR
+   camera[Camara IP] -->|RTSP :554| mediamtx[MediaMTX]
+   mediamtx -->|WebRTC :8889| browser[Navegador]
+   mediamtx -->|HLS :8888| hls[Cliente HLS opcional]
+```
+
+En este proyecto, MediaMTX es el cliente RTSP de la camara y el navegador es el cliente WebRTC de MediaMTX. Por eso `rtsp: false` en `mediamtx.yml` no desactiva la entrada RTSP: solo desactiva el servidor RTSP de salida de MediaMTX, que escucharia en el puerto `8554` y no se necesita aqui.
+
+La URL de la camara se construye con las variables de `.env` y se inyecta mediante `MTX_PATHS_CAMARA_SOURCE`. El path `camara` utiliza `sourceOnDemand: true`, por lo que MediaMTX solo abre la conexion RTSP cuando existe un cliente reproduciendo el stream.
+
 ## Requisitos
 
 - Docker + Docker Compose v2
@@ -95,7 +110,7 @@ Con `network_mode: host`, MediaMTX escucha directamente en el host:
 |---|---|
 | `8889/tcp` | Pagina y señalizacion WebRTC: `http://localhost:8889/camara` |
 | `8189/udp` | Trafico ICE/WebRTC del navegador |
-| `8888/tcp` | HLS, disponible en `http://localhost:8888/camara/index.m3u8` |
+| `8888/tcp` | Pagina HLS: `http://localhost:8888/camara` |
 | `9997/tcp` | API de control, desactivada por defecto |
 
 WebRTC es la opcion recomendada para el navegador. Si la red bloquea UDP, puedes probar HLS, aunque normalmente tendra mas latencia. Los servidores RTSP, RTMP, SRT y MoQ estan desactivados porque este proyecto no los utiliza.
