@@ -55,7 +55,7 @@ La URL de la camara se construye con las variables de `.env` y se inyecta median
    cp .env.example .env
    ```
 
-5. Edita `.env` con tus valores reales (usuario, contraseña, IP, path). Este archivo nunca se sube al repositorio, esta en `.gitignore`.
+5. Edita `.env` con tus valores reales (usuario, password, IP, path). Este archivo nunca se sube al repositorio, esta en `.gitignore`.
 
 6. Ajusta `CAMERA_RTSP_PATH` en `.env` si tu camara no es una Tapo (el valor por defecto usa `/stream2`, especifico de Tapo).
 
@@ -90,7 +90,7 @@ Edita `.env` y recrea el contenedor despues de cualquier cambio:
 
 ```dotenv
 CAMERA_USER=usuario_rtsp
-CAMERA_PASSWORD=contrasena_rtsp
+CAMERA_PASSWORD=password_rtsp
 CAMERA_IP=192.168.1.200
 CAMERA_RTSP_PATH=/stream2
 ```
@@ -155,7 +155,7 @@ Para varias camaras, añade un path por camara en `mediamtx.yml`. Los paths adic
 ```yaml
 paths:
    camara_salon:
-      source: rtsp://usuario:contrasena@192.168.1.201:554/stream2
+      source: rtsp://usuario:password@192.168.1.201:554/stream2
       sourceOnDemand: true
 ```
 
@@ -230,11 +230,11 @@ ping -c 3 <IP_CAMARA>
 nc -zv <IP_CAMARA> 554
 
 # 3. Sesion RTSP real y codec que envia la camara
-ffprobe -rtsp_transport tcp "rtsp://usuario:contrasena@<IP_CAMARA>:554/<PATH_RTSP>"
+ffprobe -rtsp_transport tcp "rtsp://usuario:password@<IP_CAMARA>:554/<PATH_RTSP>"
 
 # 4. Si no tienes ffmpeg instalado en el host, usa un contenedor desechable
 docker run --rm --network host jrottenberg/ffmpeg \
-  -rtsp_transport tcp -i "rtsp://usuario:contrasena@<IP_CAMARA>:554/<PATH_RTSP>" \
+  -rtsp_transport tcp -i "rtsp://usuario:password@<IP_CAMARA>:554/<PATH_RTSP>" \
   -t 2 -f null -
 ```
 
@@ -242,9 +242,9 @@ Interpretacion de errores tipicos en los logs de MediaMTX:
 
 | Sintoma en `docker compose logs` | Causa probable | Que revisar |
 |---|---|---|
-| `i/o timeout` al conectar con la camara | La camara no responde en la URL RTSP, o el path, usuario o contrasena son incorrectos | Ejecuta `ffprobe` y revisa el `source` de `mediamtx.yml` |
+| `i/o timeout` al conectar con la camara | La camara no responde en la URL RTSP, o el path, usuario o password son incorrectos | Ejecuta `ffprobe` y revisa el `source` de `mediamtx.yml` |
 | `i/o timeout` en una URL RTSP normal, pero `nc` confirma el puerto abierto | Stream en codec no soportado (HEVC) o RTSP no habilitado realmente en la camara pese a tener credenciales creadas | Ejecuta `ffprobe` y revisa el campo `Video:` de la salida |
-| `401 Unauthorized` o `Unauthorized` en los logs | Usuario o contrasena RTSP incorrectos, o contrasena con caracteres especiales sin URL-encodear | Prueba con una contrasena solo alfanumerica para descartar el problema de encoding |
+| `401 Unauthorized` o `Unauthorized` en los logs | Usuario o password RTSP incorrectos, o password con caracteres especiales sin URL-encodear | Prueba con una password solo alfanumerica para descartar el problema de encoding |
 | `connection refused` en vez de timeout | RTSP no habilitado en la camara, o puerto distinto a 554 | Revisa Ajustes avanzados de la camara y confirma el puerto real |
 | Contenedor no aparece como `Up` en `docker compose ps` | Error de sintaxis en `mediamtx.yml` o `.env` no encontrado | `docker compose logs mediamtx` deberia mostrar el error de parseo al arrancar |
 | Video se ve pero va a saltos o se corta | Ancho de banda insuficiente en la red local, o demasiadas sesiones RTSP concurrentes contra la misma camara | Cierra la app movil del fabricante mientras pruebas, muchas camaras limitan a 1-2 clientes RTSP simultaneos |
