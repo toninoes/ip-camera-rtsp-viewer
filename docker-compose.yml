@@ -1,6 +1,6 @@
 services:
   mediamtx:
-    image: bluenviron/mediamtx:1.21.0
+    image: bluenviron/mediamtx:1.21.1
     container_name: mediamtx
     network_mode: host
     env_file:
